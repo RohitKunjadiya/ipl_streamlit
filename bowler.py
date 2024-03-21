@@ -7,7 +7,7 @@ def app():
     st.title("Bowler's Performance")
     player=Player()
 
-    ip = st.selectbox('Enter Bowler Name:',player.bowler())
+    ip = st.sidebar.selectbox('Enter Bowler Name:',player.bowler())
 
     col1,col2 = st.columns(2)
 
