@@ -49,6 +49,28 @@ ipl['WinningTeam'] = ipl['WinningTeam'].apply(st2)
 
 # print(ipl['Team2'].nunique())
 
+def edit(x):
+    if x == '2007/08':
+        return '2008'
+    else:
+        return x
+
+def edit1(x):
+    if x == '2009/10':
+        return '2010'
+    else:
+        return x
+
+def edit2(x):
+    if x == '2020/21':
+        return '2020'
+    else:
+        return x
+
+ipl['Season'] = ipl['Season'].apply(edit)
+ipl['Season'] = ipl['Season'].apply(edit1)
+ipl['Season'] = ipl['Season'].apply(edit2)
+
 data = record.merge(ipl,on='ID',how='inner').copy()
 data['BowlingTeam'] = data['Team1'] + data['Team2']
 data['BowlingTeam'] = data[['BattingTeam','BowlingTeam']].apply(lambda x: x.values[1].replace(x.values[0], ''), axis=1)
@@ -66,10 +88,37 @@ data['BowlingTeam'] = data['Team1'] + data['Team2']
 data['BowlingTeam'] = data[['BattingTeam','BowlingTeam']].apply(lambda x: x.values[1].replace(x.values[0], ''), axis=1)
 # print(data['BowlingTeam'].unique())
 
+data['out'] = (data['Batter'] == data['PlayerOut']) & (
+            ~data['Kind'].isin(['run out', 'retired hurt', 'retired hurt']))
+data['bowlers_run'] = data['ExtraType'].apply(lambda x: 0 if x in ['legbyes', 'byes'] else 1) * data['TotalRun']
+data['ball_played'] = data['ExtraType'].apply(lambda x: 0 if x in ['wides'] else 1)
+
 class Player:
 
     def batter(self):
         return data['Batter'].unique()
+
+    def season(self):
+        return data['Season'].unique()
+
+    def batter_score_in_season(self, batter, season):
+        try:
+            x = data[data['Batter'] == batter]
+            y = x[x['Season'] == season]
+            return y.groupby('Batter')['BatsmanRun'].sum().sort_values(ascending=False).values[0]
+        except:
+            return 'Not Played'
+
+    def batter_score_seasonwise(self,batter):
+        try:
+            x = data[data['Batter'] == batter]
+            y = x.groupby(['Season', 'Batter'])['BatsmanRun'].sum().sort_values(
+                ascending=False).reset_index().sort_values(by='Season')
+            y.rename(columns={'BatsmanRun': 'Runs'}, inplace=True)
+
+            return y[['Season', 'Runs']]
+        except:
+            return 'Not Played'
 
     # Highest Strike Rate
     def sr(self):
@@ -229,8 +278,7 @@ class Player:
         return df.groupby('Bowler')['IsWicketDelivery'].sum().values[0]
 
     def h2h_bowler(self):
-        data['out'] = (data['Batter'] == data['PlayerOut']) & (
-            ~data['Kind'].isin(['run out', 'retired hurt', 'retired hurt']))
+
         return data.groupby(['Batter', 'Bowler']).agg({
             'out': 'sum',
             'BatsmanRun': 'sum'
@@ -251,3 +299,60 @@ class Player:
         purple_caps.set_index('Season', inplace=True)
 
         return purple_caps
+
+    #orange-cap holder
+    def orange_cap_holder(self):
+        x = data.groupby(['Season', 'Batter'])
+        x = x.agg({'BatsmanRun': 'sum', 'ball_played': 'sum', 'out': 'sum'}).rename(
+            columns={'BatsmanRun': 'Runs', 'ball_played': 'Balls'}).sort_values(by='Runs',ascending=False).reset_index().drop_duplicates(
+            'Season', keep='first').sort_values(by='Season')
+        x['Strike Rate'] = round(x['Runs'] / x['Balls'] * 100, 2)
+        x['Average'] = round(x['Runs'] / x['out'], 2)
+        x.set_index('Season', inplace=True)
+        return x
+
+    def wicket_against_team(self, player):
+        l = ['caught', 'bowled', 'lbw', 'caught and bowled', 'stumped', 'retired hurt',
+             'hit wicket', 'obstructing the field', 'retired out']
+
+        x = data[data['Kind'].isin(l)]
+        wct = x[x['Bowler'] == player]
+        wc = wct.groupby('BattingTeam')['IsWicketDelivery'].sum()
+        return wc.reset_index().rename(columns={'IsWicketDelivery': 'Wickets'}).set_index('BattingTeam')
+
+    def wicket_against_teamChart(self, player):
+        l = ['caught', 'bowled', 'lbw', 'caught and bowled', 'stumped', 'retired hurt',
+             'hit wicket', 'obstructing the field', 'retired out']
+
+        x = data[data['Kind'].isin(l)]
+        wct = x[x['Bowler'] == player]
+        wc = wct.groupby('BattingTeam')['IsWicketDelivery'].sum()
+        return wc.reset_index().rename(columns={'IsWicketDelivery': 'Wickets'})
+
+    def wickets_seasonwise(self,bowler):
+        x = data[data['Bowler'] == bowler]
+        l = ['caught', 'bowled', 'lbw', 'caught and bowled', 'stumped', 'retired hurt',
+             'hit wicket', 'obstructing the field', 'retired out']
+        y = x[x['Kind'].isin(l)]
+        z = y.groupby(['Season', 'Bowler'])['IsWicketDelivery'].sum().sort_values(
+            ascending=False).reset_index().sort_values(by='Season')
+        a = z[['Season', 'IsWicketDelivery']]
+        return a.rename(columns={'IsWicketDelivery':'Wickets'}).set_index('Season')
+
+    def wickets_seasonwiseChart(self,bowler):
+        x = data[data['Bowler'] == bowler]
+        l = ['caught', 'bowled', 'lbw', 'caught and bowled', 'stumped', 'retired hurt',
+             'hit wicket', 'obstructing the field', 'retired out']
+        y = x[x['Kind'].isin(l)]
+        z = y.groupby(['Season', 'Bowler'])['IsWicketDelivery'].sum().sort_values(
+            ascending=False).reset_index().sort_values(by='Season')
+        a = z[['Season', 'IsWicketDelivery']]
+        return a.rename(columns={'IsWicketDelivery':'Wickets'})
+
+    def best_figure(self,bowler):
+        wct = data[data['Bowler'] == bowler]
+        wc = wct.groupby(['ID', 'BattingTeam'])[['bowlers_run', 'out']].sum().reset_index().sort_values('out',
+                                                                                                        ascending=False).head(
+            1)
+        return wc[['BattingTeam', 'bowlers_run', 'out']].set_index('BattingTeam').rename(
+            columns={'bowlers_run': 'Runs', 'out': 'Wickets'})

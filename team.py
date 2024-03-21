@@ -73,7 +73,8 @@ def app():
 
             st.subheader('Pie Chart:')
             x = ipl.team_recordPie(team1)
-            fig = px.pie(x, names='Team Name', values='Results', hover_name='Team Name',title=team1, labels='Team Name')
+            fig = px.pie(x, names='Question', values='Answer', hover_name='Question',title=team1,
+                        labels='Question')
             fig.update_traces(textposition='inside', textinfo='percent+label')
             fig.update_layout(showlegend=False, width=400, height=400)
             st.plotly_chart(fig)
@@ -115,8 +116,8 @@ def app():
 
             st.subheader('Pie Chart:')
             x = ipl.team_recordPie(team2)
-            fig = px.pie(x, names='Team Name', values='Results', hover_name='Team Name', title=team2,
-                         labels='Team Name')
+            fig = px.pie(x, names='Question', values='Answer', hover_name='Question', title=team2,
+                        labels='Question')
             fig.update_traces(textposition='inside', textinfo='percent+label')
             fig.update_layout(showlegend=False, width=400, height=400)
             st.plotly_chart(fig)

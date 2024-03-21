@@ -25,10 +25,9 @@ class MultiApp:
         # app = st.sidebar(
         with st.sidebar:
             app = option_menu(
-                menu_title='IPL Analysis ',
+                menu_title='IPL Analysis 🏏',
                 options=['Points Table','Team Analysis','Batting Analysis','Bowling Analysis','Stats'],
-                # icons=['house-fill', 'person-circle', 'trophy-fill', 'chat-fill', 'info-circle-fill'],
-                menu_icon='cricket',
+                menu_icon='point',
                 default_index=1,
                 styles={
                     "container": {"padding": "5!important", "background-color": 'black'},
@@ -39,14 +38,14 @@ class MultiApp:
 
             )
 
+        if app == 'Points Table':
+            points_table.app()
         if app == 'Team Analysis':
             team.app()
         if app == 'Batting Analysis':
             batter.app()
         if app == 'Bowling Analysis':
             bowler.app()
-        if app == 'Points Table':
-            points_table.app()
         if app == 'Stats':
             stats.app()
 

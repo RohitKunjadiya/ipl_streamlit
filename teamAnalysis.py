@@ -114,7 +114,7 @@ class IPL:
 
             response = pd.DataFrame(pd.DataFrame(response, index=[1]).stack()).reset_index()
             response.drop('level_0', axis=1, inplace=True)
-            response.rename(columns={'level_1': 'Team Name', 0: 'Results'}, inplace=True)
+            response.rename(columns={'level_1': 'Question', 0: 'Answer'}, inplace=True)
 
             return response
         else:
