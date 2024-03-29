@@ -14,7 +14,7 @@ def app():
 
     team2 = st.sidebar.selectbox('Select Team-2',teams)
 
-    analysis = st.sidebar.button('Show Analysis')
+    analysis = st.sidebar.button('Show')
 
     data = ipl.teamVsteam(team1,team2)
     if analysis:
