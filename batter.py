@@ -3,11 +3,12 @@ from playerAnalysis import Player
 import plotly.express as px
 
 def app():
+
     player = Player()
 
     ip = st.sidebar.selectbox('Enter Batter Name:',player.batter())
 
-    st.subheader("Overall Batting Stats in Ipl Till 2023:")
+    st.subheader("Batter's Performance in IPL till 2023:")
     st.dataframe(player.batter_stats(ip), width=700)
 
     # st.subheader('Runs Scored Against Each Team:')
@@ -16,7 +17,7 @@ def app():
     fig = px.bar(player.runs_against_teamChart(ip), x='Bowling Team', y='Runs',title="Visual Representation of Batter's Runs Against Each Teams")
     st.plotly_chart(fig)
 
-    st.subheader("Batter's Runs in Each Season:")
+    # st.subheader("Batter's Runs in Each Season:")
     st.write(ip,"'s Runs Each Season:")
     fig = px.bar(player.batter_score_seasonwise(ip), x='Season', y='Runs',
                  title="Visual Representation of Batter's Runs Against Each Season")

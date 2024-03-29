@@ -10,8 +10,6 @@ def app():
 
     teams = ipl.teams()
 
-    st.sidebar.title('IPL Analysis')
-
     team1 = st.sidebar.selectbox('Select Team-1',teams)
 
     team2 = st.sidebar.selectbox('Select Team-2',teams)

@@ -4,7 +4,7 @@ import plotly.express as px
 
 def app():
 
-    st.title("Bowler's Performance")
+    st.subheader("Bowler's Performance in IPL till 2023")
     player=Player()
 
     ip = st.sidebar.selectbox('Enter Bowler Name:',player.bowler())
@@ -25,9 +25,9 @@ def app():
     #     st.subheader('Wickets Against Teams:')
     #     st.dataframe(player.wicket_against_team(ip),width=200)
 
-    st.subheader("Bowler's Wickets Against Each Team:")
+    # st.subheader("Bowler's Wickets Against Each Team:")
     fig = px.bar(player.wicket_against_teamChart(ip), x='BattingTeam', y='Wickets',
-                 title="Visual Representation of Bowler's Against Each Team")
+                 title="Visual Representation of Bowler's Performance Against Each Team")
     fig.update_xaxes(type='category')
     st.plotly_chart(fig)
 
@@ -36,7 +36,7 @@ def app():
     #     st.dataframe(player.wickets_seasonwise(ip), width=290)
     #
 
-    st.subheader("Bowler's Wickets in Each Season:")
+    # st.subheader("Bowler's Wickets in Each Season:")
     fig = px.bar(player.wickets_seasonwiseChart(ip), x='Season', y='Wickets',
                  title="Visual Representation of Bowler's Wickets Each Season")
     fig.update_xaxes(type='category')
