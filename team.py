@@ -6,8 +6,6 @@ import plotly.express as px
 def app():
     ipl = IPL()
 
-    st.title('IPL Team Analysis')
-
     teams = ipl.teams()
 
     team1 = st.sidebar.selectbox('Select Team-1',teams)
@@ -18,6 +16,7 @@ def app():
 
     data = ipl.teamVsteam(team1,team2)
     if analysis:
+        st.title('IPL Team Analysis')
         col1, col2 = st.columns(2)
         with col1:
             st.subheader('Head to Head:')

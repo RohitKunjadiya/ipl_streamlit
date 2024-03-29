@@ -4,12 +4,12 @@ import plotly.express as px
 
 def app():
 
-    st.subheader("Bowler's Performance in IPL till 2023")
     player=Player()
 
     ip = st.sidebar.selectbox('Enter Bowler Name:',player.bowler())
     btn = st.sidebar.button('Show')
     if btn:
+        st.subheader("Bowler's Performance in IPL till 2023")
         col1,col2 = st.columns(2)
 
         with col1:
