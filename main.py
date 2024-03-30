@@ -38,6 +38,8 @@ class MultiApp:
 
             )
 
+        if app == 'Points Table':
+            points_table.app()
         if app == 'Team Analysis':
             team.app()
         if app == 'Batting Analysis':
@@ -46,7 +48,5 @@ class MultiApp:
             bowler.app()
         if app == 'Stats':
             stats.app()
-        if app == 'Points Table':
-            points_table.app()
 
     run()
