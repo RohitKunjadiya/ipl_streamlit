@@ -1,4 +1,3 @@
-import numpy as np
 import pandas as pd
 
 ipl = pd.read_csv('IPL.csv')

@@ -1,7 +1,7 @@
 import numpy as np
 import pandas as pd
 
-record = pd.read_csv('IPL_2024_ball_by_ball.csv')
+record = pd.read_csv('ipl_2024_ball_by_ball.csv')
 ipl = pd.read_csv('IPL.csv')
 
 def st(x):
