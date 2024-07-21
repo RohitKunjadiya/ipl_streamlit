@@ -3,7 +3,7 @@ import pandas as pd
 record = pd.read_csv('ipl_2024_ball_by_ball.csv')
 ipl = pd.read_csv('IPL.csv')
 
-ipl = ipl[ipl['WinningTeam'] != 'NR']
+ipl = ipl[~ipl['Team1Players'].isna()]
 
 def edit(x):
     if x == '2007/08':
