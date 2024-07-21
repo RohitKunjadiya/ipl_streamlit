@@ -1,5 +1,4 @@
 import streamlit as st
-import plotly.express as px
 from statAnalysis import Stats
 
 def app():
@@ -11,8 +10,8 @@ def app():
     st.subheader("Home and Away Win Percentage of IPL Teams:")
     st.dataframe(stat.win_percentage())
 
-    st.subheader('Good Batting Partners:')
-    st.table(stat.parterships())
+    st.subheader('Batting Partners:')
+    st.table(stat.partnerships())
 
     col1,col2 = st.columns(2)
 

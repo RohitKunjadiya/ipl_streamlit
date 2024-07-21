@@ -1,5 +1,4 @@
 import streamlit as st
-
 from streamlit_option_menu import option_menu
 
 import team, batter, bowler,points_table,stats
@@ -7,7 +6,6 @@ import team, batter, bowler,points_table,stats
 st.set_page_config(
     page_title="IPL Analysis",
 )
-
 
 class MultiApp:
 
@@ -25,10 +23,11 @@ class MultiApp:
         # app = st.sidebar(
         with st.sidebar:
             app = option_menu(
-                menu_title='IPL Analysis 🏏',
-                options=['Team Analysis','Batting Analysis','Bowling Analysis','Stats','Points Table'],
-                menu_icon='point',
-                default_index=0,
+                menu_title='IPL Analysis ',
+                options=['Points Table','Team Analysis','Batting Analysis','Bowling Analysis','Stats'],
+                # icons=['trophy-fill', 'house-fill', 'person-circle', 'chat-fill', 'info-circle-fill'],
+                menu_icon='cricket',
+                default_index=1,
                 styles={
                     "container": {"padding": "5!important", "background-color": 'black'},
                     "icon": {"color": "white", "font-size": "15px"},
@@ -38,14 +37,14 @@ class MultiApp:
 
             )
 
-        if app == 'Points Table':
-            points_table.app()
         if app == 'Team Analysis':
             team.app()
         if app == 'Batting Analysis':
             batter.app()
         if app == 'Bowling Analysis':
             bowler.app()
+        if app == 'Points Table':
+            points_table.app()
         if app == 'Stats':
             stats.app()
 
