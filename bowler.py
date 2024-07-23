@@ -46,7 +46,7 @@ def app():
 
         with col2:
             st.subheader('Top-10 Battles in IPL till 2024:')
-            st.dataframe(player.h2h_bowler(),width=410)
+            st.dataframe(player.h2h_bowler(),column_config={'BatsmanRun':'Runs'},width=410)
 
         st.subheader('Purple-Cap Holder:')
         st.dataframe(player.purple_cap(),column_config={'IsWicketDelivery':'Wickets','bowlers_run':'Runs Conceded','islegelball':'Balls'},width=800,height=633)

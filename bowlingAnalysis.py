@@ -191,8 +191,8 @@ class Bowlers:
     def h2h_bowler(self):
         data['out'] = (data['Batter'] == data['PlayerOut']) & (~data['Kind'].isin(['run out', 'retired hurt', 'retired hurt']))
         return data.groupby(['Batter', 'Bowler']).agg({
-            'out': 'sum',
-            'BatsmanRun': 'sum'
+            'BatsmanRun': 'sum',
+            'out': 'sum'
         }).sort_values(by=["out", "BatsmanRun"], ascending=[False, True]).reset_index().set_index('Batter').head(10)
 
     # purple cap holder
