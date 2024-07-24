@@ -2,59 +2,51 @@ import numpy as np
 import pandas as pd
 
 record = pd.read_csv('ipl_2024_ball_by_ball.csv')
-ipl = pd.read_csv('IPL.csv')
+ipl = pd.read_csv('IPL_cleaned.csv')
 
 def st(x):
     if x == 'Kings XI Punjab':
         return 'Punjab Kings'
     else:
         return x
-ipl['Team1'] = ipl['Team1'].apply(st)
-ipl['Team2'] = ipl['Team2'].apply(st)
-ipl['TossWinner'] = ipl['TossWinner'].apply(st)
-ipl['WinningTeam'] = ipl['WinningTeam'].apply(st)
-
 
 def st1(x):
     if x == 'Delhi Daredevils':
         return 'Delhi Capitals'
     else:
         return x
-ipl['Team1'] = ipl['Team1'].apply(st1)
-ipl['Team2'] = ipl['Team2'].apply(st1)
-ipl['TossWinner'] = ipl['TossWinner'].apply(st1)
-ipl['WinningTeam'] = ipl['WinningTeam'].apply(st1)
-
 
 def st2(x):
     if x == 'Rising Pune Supergiant':
         return 'Rising Pune Supergiants'
     else:
         return x
-ipl['Team1'] = ipl['Team1'].apply(st2)
-ipl['Team2'] = ipl['Team2'].apply(st2)
-ipl['TossWinner'] = ipl['TossWinner'].apply(st2)
-ipl['WinningTeam'] = ipl['WinningTeam'].apply(st2)
 
 def st3(t):
     if t == 'Royal Challengers Bangalore':
         return 'Royal Challengers Bengaluru'
     else:
         return t
-ipl['Team1'] = ipl['Team1'].apply(st3)
-ipl['Team2'] = ipl['Team2'].apply(st3)
-ipl['TossWinner'] = ipl['TossWinner'].apply(st3)
-ipl['WinningTeam'] = ipl['WinningTeam'].apply(st3)
-
-# print(ipl['Team2'].nunique())
 
 data = record.merge(ipl,on='ID',how='inner').copy()
+
+data['BattingTeam'] = data['BattingTeam'].apply(st)
+data['BowlingTeam'] = data['BowlingTeam'].apply(st)
+
+data['BattingTeam'] = data['BattingTeam'].apply(st1)
+data['BowlingTeam'] = data['BowlingTeam'].apply(st1)
+
+data['BattingTeam'] = data['BattingTeam'].apply(st2)
+data['BowlingTeam'] = data['BowlingTeam'].apply(st2)
+
+data['BattingTeam'] = data['BattingTeam'].apply(st3)
+data['BowlingTeam'] = data['BowlingTeam'].apply(st3)
 
 class Stats:
 
     # win percentage of teams(home and away)
     def win_percentage(self):
-        ipl1 = ipl[~ipl['WinningTeam'].isna()]
+        ipl1 = ipl[~(ipl['WinningTeam'] == 'NR')]
         tm = ipl1['Team1'].value_counts() + ipl1['Team2'].value_counts()
 
         home_win = round((ipl1[ipl1['Team1'] == ipl1['WinningTeam']]['WinningTeam'].value_counts()) / ipl1[

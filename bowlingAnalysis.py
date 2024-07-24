@@ -1,76 +1,33 @@
 import pandas as pd
 
 record = pd.read_csv('ipl_2024_ball_by_ball.csv')
-ipl = pd.read_csv('IPL.csv')
+ipl = pd.read_csv('IPL_cleaned.csv')
 
 ipl = ipl[~ipl['Team1Players'].isna()]
-
-def edit(x):
-    if x == '2007/08':
-        return '2008'
-    else:
-        return x
-
-def edit1(x):
-    if x == '2009/10':
-        return '2010'
-    else:
-        return x
-
-
-def edit2(x):
-    if x == '2020/21':
-        return '2020'
-    else:
-        return x
-
-ipl['Season'] = ipl['Season'].apply(edit)
-ipl['Season'] = ipl['Season'].apply(edit1)
-ipl['Season'] = ipl['Season'].apply(edit2)
 
 def st(x):
     if x == 'Kings XI Punjab':
         return 'Punjab Kings'
     else:
         return x
-ipl['Team1'] = ipl['Team1'].apply(st)
-ipl['Team2'] = ipl['Team2'].apply(st)
-ipl['TossWinner'] = ipl['TossWinner'].apply(st)
-ipl['WinningTeam'] = ipl['WinningTeam'].apply(st)
-
 
 def st1(x):
     if x == 'Delhi Daredevils':
         return 'Delhi Capitals'
     else:
         return x
-ipl['Team1'] = ipl['Team1'].apply(st1)
-ipl['Team2'] = ipl['Team2'].apply(st1)
-ipl['TossWinner'] = ipl['TossWinner'].apply(st1)
-ipl['WinningTeam'] = ipl['WinningTeam'].apply(st1)
-
 
 def st2(x):
     if x == 'Rising Pune Supergiant':
         return 'Rising Pune Supergiants'
     else:
         return x
-ipl['Team1'] = ipl['Team1'].apply(st2)
-ipl['Team2'] = ipl['Team2'].apply(st2)
-ipl['TossWinner'] = ipl['TossWinner'].apply(st2)
-ipl['WinningTeam'] = ipl['WinningTeam'].apply(st2)
 
 def st3(t):
     if t == 'Royal Challengers Bangalore':
         return 'Royal Challengers Bengaluru'
     else:
         return t
-ipl['Team1'] = ipl['Team1'].apply(st3)
-ipl['Team2'] = ipl['Team2'].apply(st3)
-ipl['TossWinner'] = ipl['TossWinner'].apply(st3)
-ipl['WinningTeam'] = ipl['WinningTeam'].apply(st3)
-
-# print(ipl['Team2'].nunique())
 
 data = record.merge(ipl,on='ID',how='inner').copy()
 
@@ -137,7 +94,7 @@ class Bowlers:
         wct = data[data['Bowler'] == bowler]
         wct['bowlers_run'] = wct['ExtraType'].apply(lambda x: 0 if x in ['legbyes', 'byes'] else 1) * wct['TotalRun']
         wct['out'] = (wct['Batter'] == wct['PlayerOut']) & (~wct['Kind'].isin(['run out', 'retired hurt', 'retired hurt']))
-        wc = wct.groupby(['ID', 'BattingTeam'])[['bowlers_run', 'out']].sum().reset_index().sort_values('out',ascending=False).head(1)
+        wc = wct.groupby(['ID', 'BattingTeam'])[['bowlers_run', 'out']].sum().reset_index().sort_values(['out','bowlers_run'],ascending=[False,True]).head(1)
         return wc[['BattingTeam', 'bowlers_run', 'out']].set_index('BattingTeam').rename(columns={'bowlers_run': 'Runs', 'out': 'Wickets'})
 
     # bar-chart of bowlers wicket against each team

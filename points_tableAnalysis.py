@@ -1,49 +1,6 @@
 import pandas as pd
 
-ipl = pd.read_csv('IPL.csv')
-
-def st(x):
-    if x == 'Kings XI Punjab':
-        return 'Punjab Kings'
-    else:
-        return x
-ipl['Team1'] = ipl['Team1'].apply(st)
-ipl['Team2'] = ipl['Team2'].apply(st)
-ipl['TossWinner'] = ipl['TossWinner'].apply(st)
-ipl['WinningTeam'] = ipl['WinningTeam'].apply(st)
-
-
-def st1(x):
-    if x == 'Delhi Daredevils':
-        return 'Delhi Capitals'
-    else:
-        return x
-ipl['Team1'] = ipl['Team1'].apply(st1)
-ipl['Team2'] = ipl['Team2'].apply(st1)
-ipl['TossWinner'] = ipl['TossWinner'].apply(st1)
-ipl['WinningTeam'] = ipl['WinningTeam'].apply(st1)
-
-
-def st2(x):
-    if x == 'Rising Pune Supergiant':
-        return 'Rising Pune Supergiants'
-    else:
-        return x
-ipl['Team1'] = ipl['Team1'].apply(st2)
-ipl['Team2'] = ipl['Team2'].apply(st2)
-ipl['TossWinner'] = ipl['TossWinner'].apply(st2)
-ipl['WinningTeam'] = ipl['WinningTeam'].apply(st2)
-
-def st3(t):
-    if t == 'Royal Challengers Bangalore':
-        return 'Royal Challengers Bengaluru'
-    else:
-        return t
-ipl['Team1'] = ipl['Team1'].apply(st3)
-ipl['Team2'] = ipl['Team2'].apply(st3)
-ipl['TossWinner'] = ipl['TossWinner'].apply(st3)
-ipl['WinningTeam'] = ipl['WinningTeam'].apply(st3)
-
+ipl = pd.read_csv('IPL_cleaned.csv')
 
 class Points_Table:
 
@@ -56,28 +13,6 @@ class Points_Table:
 
     def matches_no_result(self,data, team):
         return data[((data['Team1'] == team) | (data['Team2'] == team)) & (data['WinningTeam'] == 'NR')].shape[0]
-
-    def edit(x):
-        if x == '2007/08':
-            return '2008'
-        else:
-            return x
-
-    def edit1(x):
-        if x == '2009/10':
-            return '2010'
-        else:
-            return x
-
-    def edit2(x):
-        if x == '2020/21':
-            return '2020'
-        else:
-            return x
-
-    ipl['Season'] = ipl['Season'].apply(edit)
-    ipl['Season'] = ipl['Season'].apply(edit1)
-    ipl['Season'] = ipl['Season'].apply(edit2)
 
     ipl.loc[55, ipl.columns[4]] = 'Qualifier 1'
     ipl.loc[56, ipl.columns[4]] = 'Qualifier 2'

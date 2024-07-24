@@ -1,48 +1,8 @@
 import pandas as pd
 
-ipl = pd.read_csv('IPL.csv')
+ipl = pd.read_csv('IPL_cleaned.csv')
 
 ipl.sort_values(['Date'],inplace=True)
-
-def func(t):
-    if t == 'Kings XI Punjab':
-        return 'Punjab Kings'
-    else:
-        return t
-ipl['Team1'] = ipl['Team1'].apply(func)
-ipl['Team2'] = ipl['Team2'].apply(func)
-ipl['TossWinner'] = ipl['TossWinner'].apply(func)
-ipl['WinningTeam'] = ipl['WinningTeam'].apply(func)
-
-def func0(t):
-    if t == 'Royal Challengers Bangalore':
-        return 'Royal Challengers Bengaluru'
-    else:
-        return t
-ipl['Team1'] = ipl['Team1'].apply(func0)
-ipl['Team2'] = ipl['Team2'].apply(func0)
-ipl['TossWinner'] = ipl['TossWinner'].apply(func0)
-ipl['WinningTeam'] = ipl['WinningTeam'].apply(func0)
-
-def func1(t):
-    if t == 'Delhi Daredevils':
-        return 'Delhi Capitals'
-    else:
-        return t
-ipl['Team1'] = ipl['Team1'].apply(func1)
-ipl['Team2'] = ipl['Team2'].apply(func1)
-ipl['TossWinner'] = ipl['TossWinner'].apply(func1)
-ipl['WinningTeam'] = ipl['WinningTeam'].apply(func1)
-
-def func2(t):
-    if t == 'Rising Pune Supergiant':
-        return 'Rising Pune Supergiants'
-    else:
-        return t
-ipl['Team1'] = ipl['Team1'].apply(func2)
-ipl['Team2'] = ipl['Team2'].apply(func2)
-ipl['TossWinner'] = ipl['TossWinner'].apply(func2)
-ipl['WinningTeam'] = ipl['WinningTeam'].apply(func2)
 
 class IPL:
 

@@ -2,98 +2,48 @@ import numpy as np
 import pandas as pd
 
 record = pd.read_csv('ipl_2024_ball_by_ball.csv')
-ipl = pd.read_csv('IPL.csv')
+ipl = pd.read_csv('IPL_cleaned.csv')
 
-def edit(x):
-    if x == '2007/08':
-        return '2008'
-    else:
-        return x
+ipl1 = ipl[~ipl['Team1Players'].isna()]
+# ipl = ipl[ipl['WinningTeam'] != 'NR']
 
-def edit1(x):
-    if x == '2009/10':
-        return '2010'
-    else:
-        return x
-
-
-def edit2(x):
-    if x == '2020/21':
-        return '2020'
-    else:
-        return x
-
-ipl['Season'] = ipl['Season'].apply(edit)
-ipl['Season'] = ipl['Season'].apply(edit1)
-ipl['Season'] = ipl['Season'].apply(edit2)
+data1 = record.merge(ipl1,on='ID',how='inner').copy()
 
 def st(x):
     if x == 'Kings XI Punjab':
         return 'Punjab Kings'
     else:
         return x
-ipl['Team1'] = ipl['Team1'].apply(st)
-ipl['Team2'] = ipl['Team2'].apply(st)
-ipl['TossWinner'] = ipl['TossWinner'].apply(st)
-ipl['WinningTeam'] = ipl['WinningTeam'].apply(st)
-
 
 def st1(x):
     if x == 'Delhi Daredevils':
         return 'Delhi Capitals'
     else:
         return x
-ipl['Team1'] = ipl['Team1'].apply(st1)
-ipl['Team2'] = ipl['Team2'].apply(st1)
-ipl['TossWinner'] = ipl['TossWinner'].apply(st1)
-ipl['WinningTeam'] = ipl['WinningTeam'].apply(st1)
-
 
 def st2(x):
     if x == 'Rising Pune Supergiant':
         return 'Rising Pune Supergiants'
     else:
         return x
-ipl['Team1'] = ipl['Team1'].apply(st2)
-ipl['Team2'] = ipl['Team2'].apply(st2)
-ipl['TossWinner'] = ipl['TossWinner'].apply(st2)
-ipl['WinningTeam'] = ipl['WinningTeam'].apply(st2)
+
 
 def st3(t):
     if t == 'Royal Challengers Bangalore':
         return 'Royal Challengers Bengaluru'
     else:
         return t
-ipl['Team1'] = ipl['Team1'].apply(st3)
-ipl['Team2'] = ipl['Team2'].apply(st3)
-ipl['TossWinner'] = ipl['TossWinner'].apply(st3)
-ipl['WinningTeam'] = ipl['WinningTeam'].apply(st3)
 
-ipl1 = ipl[~ipl['Team1Players'].isna()]
-ipl = ipl[ipl['WinningTeam'] != 'NR']
 
-# print(ipl['Team2'].nunique())
-
-# data = record.merge(ipl,on='ID',how='inner').copy()
-data1 = record.merge(ipl1,on='ID',how='inner').copy()
-
-# data['BattingTeam'] = data['BattingTeam'].apply(st)
-# data['BowlingTeam'] = data['BowlingTeam'].apply(st)
 data1['BattingTeam'] = data1['BattingTeam'].apply(st)
 data1['BowlingTeam'] = data1['BowlingTeam'].apply(st)
 
-# data['BattingTeam'] = data['BattingTeam'].apply(st1)
-# data['BowlingTeam'] = data['BowlingTeam'].apply(st1)
 data1['BattingTeam'] = data1['BattingTeam'].apply(st1)
 data1['BowlingTeam'] = data1['BowlingTeam'].apply(st1)
 
-# data['BattingTeam'] = data['BattingTeam'].apply(st2)
-# data['BowlingTeam'] = data['BowlingTeam'].apply(st2)
 data1['BattingTeam'] = data1['BattingTeam'].apply(st2)
 data1['BowlingTeam'] = data1['BowlingTeam'].apply(st2)
 
-# data['BattingTeam'] = data['BattingTeam'].apply(st3)
-# data['BowlingTeam'] = data['BowlingTeam'].apply(st3)
 data1['BattingTeam'] = data1['BattingTeam'].apply(st3)
 data1['BowlingTeam'] = data1['BowlingTeam'].apply(st3)
 
