@@ -75,7 +75,7 @@ class Stats:
         x.loc[2, 'index'] = 'Home Win(%)'
         x.loc[3, 'index'] = 'Away Win(%)'
 
-        return x.set_index('index')
+        return x.set_index('index').T
 
     # best batting partners in ipl till 2024
     def func(self,x):
